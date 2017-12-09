@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="Ronanliao">
 <meta property="og:description" content="Prepare 开发环境：win7 + Eclipse Oxygen + maven + tomcat7   Install Java, configure system environment variable. Use cmd java -version to check your version. Install tomcat. Visit http://localhost:8080 to">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-12-09T13:53:50.868Z">
+<meta property="og:updated_time" content="2017-12-09T13:56:48.936Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Springboot开发环境搭建">
 <meta name="twitter:description" content="Prepare 开发环境：win7 + Eclipse Oxygen + maven + tomcat7   Install Java, configure system environment variable. Use cmd java -version to check your version. Install tomcat. Visit http://localhost:8080 to">
@@ -305,14 +305,32 @@
 <ol>
 <li>Install Java, configure system environment variable. Use <code>cmd java -version</code> to check your version.</li>
 <li>Install tomcat. Visit <code>http://localhost:8080</code> to check if server started successfully.</li>
-<li>配置maven<ul>
+<li><p>配置maven</p>
+<ul>
 <li>下载并解压maven</li>
 <li>修改系统环境变量，Path最后加上<code>%maven_home（maven安装路径）%\bin;</code></li>
-<li>修改<code>\conf\settings.xml</code>，设置maven repository路径，以后的依赖都下载在这里</li>
+<li><p>修改<code>\conf\settings.xml</code>，设置maven repository路径，以后的依赖都下载在这里:<br><code>&lt;localRepository&gt;E:\maven_repo&lt;/localRepository&gt;</code></p>
+</li>
+<li><p><code>cmd mvn -v</code>可以查看maven版本和安装信息，顺便检验是否安装成功</p>
+</li>
+</ul>
+</li>
+<li>配置Eclipse + maven<ul>
+<li><code>Help - install new software</code>下载m2e插件，装完重启eclipse生效</li>
+<li><code>Window - preference - Maven - user settings</code>使用自己的<code>\conf\settings.xml</code>，顺带更新Local Repository路径</li>
+</ul>
+</li>
+<li>配置Eclipse + Tomcat<ul>
+<li><code>Window - preference - Server - Runtime Environment</code> Add自己的Tomcat</li>
 </ul>
 </li>
 </ol>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"> <span class="tag">&lt;<span class="name">localRepository</span>&gt;</span>E:\maven_repo<span class="tag">&lt;/<span class="name">localRepository</span>&gt;</span></span><br><span class="line">``` </span><br><span class="line">    - `cmd mvn -v`可以查看maven版本和安装信息，顺便检验是否安装成功</span><br><span class="line">4.  配置Eclipse + maven</span><br><span class="line">    - `Help - install new software`下载m2e插件，装完重启eclipse生效</span><br><span class="line">    - `Window - preference - Maven - user settings`使用自己的`\conf\settings.xml`，顺带更新Local Repository路径</span><br><span class="line">5.  配置Eclipse + Tomcat</span><br><span class="line">    - `Window - preference - Server - Runtime Environment` Add自己的Tomcat</span><br><span class="line"></span><br><span class="line">##Spring Boot Demo</span><br><span class="line">- 创建一个maven项目</span><br><span class="line">- `pom.xml`:</span><br><span class="line"></span><br><span class="line">```xml</span><br><span class="line"><span class="tag">&lt;<span class="name">parent</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-parent<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.5.9.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>##Spring Boot Demo</p>
+<ul>
+<li>创建一个maven项目</li>
+<li><code>pom.xml</code>:</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">parent</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-parent<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.5.9.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <ul>
 <li><code>App.java</code>：</li>
 </ul>
