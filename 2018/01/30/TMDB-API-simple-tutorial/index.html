@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="TMDB, Movielens," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="How to use The Movie Database API(python3.5)">
+<meta name="keywords" content="TMDB, Movielens">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TMDB API simple tutorial">
+<meta property="og:url" content="http://yoursite.com/2018/01/30/TMDB-API-simple-tutorial/index.html">
+<meta property="og:site_name" content="Ronanliao">
+<meta property="og:description" content="How to use The Movie Database API(python3.5)">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-01-30T09:17:39.907Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TMDB API simple tutorial">
+<meta name="twitter:description" content="How to use The Movie Database API(python3.5)">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/01/30/TMDB-API-simple-tutorial/"/>
+
+
+
+
+
+  <title>TMDB API simple tutorial | Ronanliao</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Ronanliao</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/30/TMDB-API-simple-tutorial/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alex Liao">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ronanliao">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">TMDB API simple tutorial</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-30T15:57:06+08:00">
+                2018-01-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  How to use The Movie Database API(python3.5)
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Goal"><a href="#Goal" class="headerlink" title="Goal"></a>Goal</h2><p>Obtain movies’ posters listed in Movielens dataset from The Movie DB.</p>
+<h2 id="Tools"><a href="#Tools" class="headerlink" title="Tools"></a>Tools</h2><p>python3.5, Movielens dataset, The Movie DB, tmdbsimple</p>
+<h2 id="Prepare"><a href="#Prepare" class="headerlink" title="Prepare"></a>Prepare</h2><h3 id="1-Movielens-dataset"><a href="#1-Movielens-dataset" class="headerlink" title="1. Movielens dataset"></a>1. Movielens dataset</h3><p><a href="https://grouplens.org/datasets/movielens/" target="_blank" rel="noopener">MovieLens</a></p>
+<p>This dataset includes movies’ title, info, users’ rating, etc. There are two kinds of size, 100k and 20M. Latest versions was updated in 2016 and 2017.</p>
+<p>In this article, we will focus on file <code>links.csv</code>.</p>
+<h3 id="2-The-Movie-Database-API"><a href="#2-The-Movie-Database-API" class="headerlink" title="2. The Movie Database API"></a>2. The Movie Database API</h3><p>To use the TMDB api, we have to register an account of TMDB and request for an api key on <a href="https://www.themoviedb.org/settings/api" target="_blank" rel="noopener">TMDB</a>.</p>
+<p>The api is in form of http request, so I found a simple python wrapper package listed in the website: <a href="https://github.com/celiao/tmdbsimple" target="_blank" rel="noopener">tmdbsimple - A wrapper for The Movie Database API v3</a></p>
+<p>Import the tmdbsimple(tmdb) module into pycharm.</p>
+<h2 id="Progress"><a href="#Progress" class="headerlink" title="Progress"></a>Progress</h2><h3 id="1-Read-data-from-movielens"><a href="#1-Read-data-from-movielens" class="headerlink" title="1. Read data from movielens"></a>1. Read data from movielens</h3><p>Use pandas to read movie id, imdb id and tmdb id from links.csv. Later we will use tmdb id to get posters path.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> csv</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">datapath = <span class="string">'D:\\movielens\\'</span></span><br><span class="line">df_id = pd.read_csv(datapath + <span class="string">'links.csv'</span>, sep = <span class="string">','</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#imdb ids</span></span><br><span class="line">idx_to_movie = &#123;&#125;</span><br><span class="line"><span class="comment">#tmdb ids</span></span><br><span class="line">idx_to_tmid = &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> row <span class="keyword">in</span> df_id.itertuples():</span><br><span class="line">    idx_to_movie[row[<span class="number">1</span>]<span class="number">-1</span>] = row[<span class="number">2</span>]</span><br><span class="line">    idx_to_tmid[row[<span class="number">1</span>]<span class="number">-1</span>] = row[<span class="number">3</span>]</span><br><span class="line"></span><br><span class="line">total_movies = <span class="number">9000</span></span><br><span class="line">movies = [<span class="number">0</span>] * total_movies</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(movies)):</span><br><span class="line">    <span class="keyword">if</span> i <span class="keyword">in</span> idx_to_tmid.keys() <span class="keyword">and</span> len(str(idx_to_movie[i]))==<span class="number">6</span> <span class="keyword">and</span> <span class="keyword">not</span> np.isnan(idx_to_tmid[i]):</span><br><span class="line">        movies[i] = (idx_to_tmid[i])</span><br><span class="line"></span><br><span class="line">movies = list(filter(<span class="keyword">lambda</span> imdb: imdb != <span class="number">0</span>, movies))</span><br></pre></td></tr></table></figure>
+<h3 id="2-Get-poster-url-and-imdb-id"><a href="#2-Get-poster-url-and-imdb-id" class="headerlink" title="2. Get poster url and imdb id"></a>2. Get poster url and imdb id</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">total_movies = len(movies)</span><br><span class="line">URL = [<span class="number">0</span>]*total_movies</span><br><span class="line">IMDB = [<span class="number">0</span>]*total_movies</span><br><span class="line">URL_IMDB = &#123;<span class="string">"url"</span>:[],<span class="string">"imdb"</span>:[]&#125;</span><br><span class="line">i = <span class="number">0</span></span><br><span class="line"><span class="comment">#get url-imdb index mapper</span></span><br><span class="line"><span class="keyword">for</span> movie <span class="keyword">in</span> movies:</span><br><span class="line">    print(movie)</span><br><span class="line">    (URL[i], IMDB[i]) = PosterCrawler.get_poster(movie)</span><br><span class="line">    <span class="keyword">if</span> URL[i] != <span class="string">'http://image.tmdb.org/t/p/'</span>:</span><br><span class="line">        URL_IMDB[<span class="string">"url"</span>].append(URL[i])</span><br><span class="line">        URL_IMDB[<span class="string">"imdb"</span>].append(IMDB[i])</span><br><span class="line">    i += <span class="number">1</span></span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line"><span class="comment">### 3. TMDB API</span></span><br><span class="line"></span><br><span class="line">I wrote a helper function `get_poster()` to call TMDB api <span class="keyword">and</span> obtain posters path. It takes movie<span class="string">'s TMDB id as parameter. </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">```python</span></span><br><span class="line"><span class="string">import tmdb</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">tmdb.API_KEY = '</span>Your API Key<span class="string">'</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">def get_poster(movieid):</span></span><br><span class="line"><span class="string">    base_url = '</span>http://image.tmdb.org/t/p/<span class="string">'</span></span><br><span class="line"><span class="string">    psize = '</span>w92<span class="string">'</span></span><br><span class="line"><span class="string">    posturl = base_url</span></span><br><span class="line"><span class="string">    imdbid = 0</span></span><br><span class="line"><span class="string">    </span></span><br><span class="line"><span class="string">    movie = tmdb.Movies(movieid)</span></span><br><span class="line"><span class="string">    response = movie.info()</span></span><br><span class="line"><span class="string">    </span></span><br><span class="line"><span class="string">    if movie == None or not hasattr(movie, '</span>poster_path<span class="string">') or not hasattr(movie, '</span>imdb_id<span class="string">') or movie.poster_path == None:</span></span><br><span class="line"><span class="string">        return posturl, imdbid</span></span><br><span class="line"><span class="string">    </span></span><br><span class="line"><span class="string">    posturl = base_url + psize + movie.poster_path</span></span><br><span class="line"><span class="string">    return posturl, movie.imdb_id</span></span><br></pre></td></tr></table></figure>
+<p>Posters also have other size including [w92, w154, w185, w342, w500, original], you can change it by editing psize. If TMDB does not have a poster of a movie, this function will return base url and 0.</p>
+<h3 id="4-Download-the-Posters"><a href="#4-Download-the-Posters" class="headerlink" title="4. Download the Posters"></a>4. Download the Posters</h3><p>Now we’ve got posters’ path and let’s download them:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">df = pd.DataFrame(data=URL_IMDB)</span><br><span class="line">total_movies = len(df)</span><br><span class="line"></span><br><span class="line"><span class="comment">#download posters</span></span><br><span class="line">poster_path = <span class="string">"D:\posters\\"</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(total_movies):</span><br><span class="line">    urllib.request.urlretrieve(df.url[i], poster_path + str(i) + <span class="string">".jpg"</span>)</span><br></pre></td></tr></table></figure>
+<p>It may take a few hours since there are 10k posters…</p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>Mention the boundary conditions.</p>
+<p>Also there is another fine wrapper <a href="https://github.com/wagnerrp/pytmdb3" target="_blank" rel="noopener">PyTMDB3</a>, however it uses python2.x, pity :(</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/TMDB-Movielens/" rel="tag"># TMDB, Movielens</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/11/tensorflow-0/" rel="next" title="tensorflow(0)">
+                <i class="fa fa-chevron-left"></i> tensorflow(0)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Alex Liao</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Goal"><span class="nav-number">1.</span> <span class="nav-text">Goal</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tools"><span class="nav-number">2.</span> <span class="nav-text">Tools</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Prepare"><span class="nav-number">3.</span> <span class="nav-text">Prepare</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Movielens-dataset"><span class="nav-number">3.1.</span> <span class="nav-text">1. Movielens dataset</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-The-Movie-Database-API"><span class="nav-number">3.2.</span> <span class="nav-text">2. The Movie Database API</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Progress"><span class="nav-number">4.</span> <span class="nav-text">Progress</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Read-data-from-movielens"><span class="nav-number">4.1.</span> <span class="nav-text">1. Read data from movielens</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Get-poster-url-and-imdb-id"><span class="nav-number">4.2.</span> <span class="nav-text">2. Get poster url and imdb id</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-Download-the-Posters"><span class="nav-number">4.3.</span> <span class="nav-text">4. Download the Posters</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Conclusion"><span class="nav-number">5.</span> <span class="nav-text">Conclusion</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alex Liao</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
